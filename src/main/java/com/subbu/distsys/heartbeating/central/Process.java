@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 public class Process {
     private String id;
     private int heartBeatCounter = 0;
+    private boolean simulateHeartBeatDelay = true;
+    private static final int HEART_BEAT_INTERVAL = 5000;
     ScheduledExecutorService scheduledExecutorService;
 
     private static Logger logger = LoggerFactory.getLogger(Process.class);
@@ -37,7 +39,7 @@ public class Process {
             public void run() {
                 sendHeartBeat();
             }
-        }, 5, 5, TimeUnit.SECONDS);
+        }, heartBeatSendInterval(), heartBeatSendInterval(), TimeUnit.MILLISECONDS);
     }
 
     public String getId() {
@@ -52,6 +54,15 @@ public class Process {
         incrementHeartBeat();
         //logger.debug(">> sending {}'s heart beat {}", id, heartBeatCounter);
         LeaderBike.sendHeartBeat(this);
+    }
+
+    private int heartBeatSendInterval() {
+        if (simulateHeartBeatDelay) {
+            // return random int
+        } else {
+            // send fixed delay
+        }
+        return HEART_BEAT_INTERVAL;
     }
 
     public static void main(String[] args) {
