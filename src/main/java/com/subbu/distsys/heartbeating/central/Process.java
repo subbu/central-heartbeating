@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Process {
     private String id;
+    private String group;
     private int heartBeatCounter = 0;
     private boolean simulateHeartBeatDelay = true;
     private static final int HEART_BEAT_INTERVAL = 5000;
@@ -16,8 +17,9 @@ public class Process {
 
     private static Logger logger = LoggerFactory.getLogger(Process.class);
 
-    public Process(String processId, String leaderId) {
+    public Process(String processId, String leaderId, String processGroup) {
         this.id = processId;
+        this.group = processGroup;
 
         if (processId.equals(leaderId)) {
             // I am the leader
@@ -68,6 +70,7 @@ public class Process {
     public static void main(String[] args) {
         String processId = args[0];
         String leaderID = args[1];
-        new Process(processId, leaderID);
+        String processGroup = args[2];
+        new Process(processId, leaderID, processGroup);
     }
 }
